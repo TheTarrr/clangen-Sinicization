@@ -2,7 +2,7 @@ import random
 import os
 
 class Name(object):
-    special_suffixes = {"kitten": "kit", "apprentice": "paw", "medicine cat apprentice": "paw", "leader": "star"}
+    special_suffixes = {"幼崽": "kit", "学徒": "paw", "巫医学徒": "paw", "族长": "star"}
     normal_suffixes = [
         # common suffixes
         "fur", "fur", "fur", "fur", "fur", "fur", "fur", "fur", "fur", "fur",
@@ -160,7 +160,7 @@ class Name(object):
 
 
 
-    def __init__(self, status="warrior", prefix=None, suffix=None, colour=None, eyes=None, pelt=None):
+    def __init__(self, status="武士", prefix=None, suffix=None, colour=None, eyes=None, pelt=None):
         self.status = status  # warrior, kitten, leader or apprentice
         if prefix is None:
             if colour is None and eyes is None:
@@ -192,7 +192,7 @@ class Name(object):
         if suffix is None:
             loop = True
             while loop:
-                if pelt is None or pelt == 'SingleColour':
+                if pelt is None or pelt == '单色':
                     self.suffix = random.choice(self.normal_suffixes)
                 else:
                     a = random.randint(0, 7)
@@ -207,7 +207,7 @@ class Name(object):
 
 
     def __repr__(self):
-        if self.status in ["deputy", "warrior", "medicine cat", "elder"]:
+        if self.status in ["副族长", "武士", "巫医", "长老"]:
             return self.prefix + self.suffix
         else:
             return self.prefix + self.special_suffixes[self.status]

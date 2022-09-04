@@ -1,3 +1,4 @@
+#coding=utf-8
 import pygame
 
 screen_x = 800

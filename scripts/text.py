@@ -1,3 +1,4 @@
+#coding=utf-8
 from .game_essentials import *
 
 pygame.init()
@@ -43,7 +44,7 @@ class Font(object):
     def change_text_size(self, extra=0):
         """ Add or reduce the size of all fonts to increase readability for those in need """
         self.extra = extra
-        # Go trhoguh all existing fonts and change their sizes accordingly
+        # Go throguh all existing fonts and change their sizes accordingly
         for f in self.all_fonts:
             f.font = pygame.font.SysFont(f.name, f.size + self.extra)
 
@@ -57,9 +58,9 @@ class Font(object):
 
 
 # F O N T S
-verdana = Font('verdana')
-verdana_black = Font('verdana', colour='black')
-verdana_red = Font('verdana', colour=(242, 52, 29))
-verdana_small = Font('verdana', 11)
-verdana_baby = Font('verdana', 11, (100, 100, 250))
-verdana_big = Font('verdana', 18)
+verdana = Font('SimHei')
+verdana_black = Font('SimHei', colour='black')
+verdana_red = Font('SimHei', colour=(242, 52, 29))
+verdana_small = Font('SimHei', 11)
+verdana_baby = Font('SimHei', 11, (100, 100, 250))
+verdana_big = Font('SimHei', 18)

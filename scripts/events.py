@@ -13,9 +13,9 @@ class Events(object):
 
     def kits_born(self, pos, parent1, parent2=None):
         if parent2 is not None:
-            verdana.text('Kittens were born to ' + str(parent1.name) + ' and ' + str(parent2.name) + '!', pos)
+            verdana.text(str(parent1.name) + ' 和 ' + str(parent2.name) + ' 的幼崽出生了!', pos)
         else:
-            verdana.text('Kittens were born to ' + str(parent1.name) + '!', pos)
+            verdana.text(str(parent1.name) + ' 的幼崽出生了!', pos)
 
 
 events_class = Events()
