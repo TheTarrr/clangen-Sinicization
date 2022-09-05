@@ -332,10 +332,10 @@ class Cat(object):
 
             if self.all_cats[cat_number].dead:
                 if randint(1, 4) == 4:
-                    append_str = str(cat.name) + ' mourns the loss of ' + str(
-                        self.all_cats[cat_number].name)
+                    append_str = str(cat.name) + ' 正在为 ' + str(
+                        self.all_cats[cat_number].name + '的离去而哀悼')
             elif cat_number == cat.ID:
-                append_str = str(cat.name) + ' thinks they are going crazy.'
+                append_str = str(cat.name) + ' 认为他们真是疯了'
             else:
                 # all other interactions here
                 event_choice = randint(1, 6)
@@ -350,57 +350,57 @@ class Cat(object):
                         if i == 1:
                             cat.specialty = choice([choice(scars1), choice(scars2)])
                             if cat.age in ['幼崽']:
-                                append_str = str(cat.name) + ' is injured when they sneak out of camp'
+                                append_str = str(cat.name) + ' 在溜出营地时受伤了'
                             else:
                                 if randint(1, 3) == 3 and (
-                                        cat.status == 'warrior' or cat.status == 'deputy'):
+                                        cat.status == '武士' or cat.status == '副族长'):
                                     append_str = str(
-                                        cat.name) + ' retires the 长老 den after injuries sustained defending ' + str(
+                                        cat.name) + ' retires the elder den after injuries sustained defending ' + str(
                                         self.all_cats[cat_number].name)
                                     cat.status_change('长老')
                                 else:
-                                    append_str = str(cat.name) + ' earned a scar defending ' + str(
-                                        self.all_cats[cat_number].name) + ' from a ' + choice(
-                                        ['rogue', 'dog', 'fox', 'otter', 'rat', 'hawk'])
+                                    append_str = str(cat.name) + ' 为了保护 ' + str(
+                                        self.all_cats[cat_number].name) + ' 不被 ' + choice(
+                                        ['rogue', 'dog', 'fox', 'otter', 'rat', 'hawk'] + ' 伤害时留下了一道疤')
                         else:
                             cat.specialty = None
-                            append_str = str(cat.name) + ' tried to convince ' + str(
-                                self.all_cats[cat_number].name) + ' to run away together.'
+                            append_str = str(cat.name) + ' 试图说服 ' + str(
+                                self.all_cats[cat_number].name) + ' 一起溜出去'
                     elif cat.status != '幼崽':
                         cat.specialty = None
-                        append_str = str(cat.name) + ' tried to convince ' + str(
-                            self.all_cats[cat_number].name) + ' to run away together.'
-                    elif game.clan.current_season != 'Leaf-bare':
+                        append_str = str(cat.name) + ' 试图说服 ' + str(
+                            self.all_cats[cat_number].name) + ' 一起私奔'
+                    elif game.clan.current_season != '秃叶季':
                         cat.specialty = None
-                        append_str = str(cat.name) + ' asks ' + str(
-                            self.all_cats[cat_number].name) + ' to show them ' + str(
-                            game.clan.name) + 'Clan territory.'
+                        append_str = str(cat.name) + ' 请求 ' + str(
+                            self.all_cats[cat_number].name) + ' 向他们展示 ' + str(
+                            game.clan.name) + 'Clan 营地'
                     else:
-                        if game.clan.current_season == 'Leaf-bare' and cat.status == '幼崽':
+                        if game.clan.current_season == '秃叶季' and cat.status == '幼崽':
                             cat.dies()
-                            append_str = str(cat.name) + '  dies of a chill during a snowstorm.'
+                            append_str = str(cat.name) + '  在暴风雪中死于寒冷.'
                         else:
-                            append_str = str(cat.name) + '  feels lost.'
+                            append_str = str(cat.name) + '  怅然若失'
 
                 # defends
                 elif event_choice == 2:
-                    if cat.status == 'leader':
-                        append_str = str(cat.name) + ' confesses to ' + str(self.all_cats[
-                                                                                cat_number].name) + ' that the responsibility of leadership is crushing them.'
-                    elif game.clan.current_season == 'Leaf-bare' and cat.status == '幼崽':
+                    if cat.status == '族长':
+                        append_str = str(cat.name) + ' 向 ' + str(self.all_cats[
+                                                                                cat_number].name) + ' 承认族长肩负着沉重的责任'
+                    elif game.clan.current_season == '秃叶季' and cat.status == '幼崽':
                         cat.dies()
-                        append_str = str(self.all_cats[cat_number].name) + ' finds ' + str(
-                            cat.name) + ' dead in the snow.'
+                        append_str = str(self.all_cats[cat_number].name) + ' 发现 ' + str(
+                            cat.name) + ' 在雪中离去了'
                     # sus
                 elif event_choice == 3:
                     if cat.mate is not None and randint(1, 3) == 1:
-                        append_str = str(cat.name) + ' is killed by ' + str(
-                            self.all_cats[cat_number].name) + ' in an argument over ' + str(
-                            self.all_cats[cat.mate].name)
+                        append_str = str(cat.name) + ' 被 ' + str(
+                            self.all_cats[cat_number].name) + ' 在一场关于 ' + str(
+                            self.all_cats[cat.mate].name + ' 的争吵中杀死了')
                         cat.dies()
                     elif cat.mate is not None:
-                        append_str = str(cat.name) + ' breaks up with ' + str(
-                            self.all_cats[cat.mate].name)
+                        append_str = str(cat.name) + ' 与 ' + str(
+                            self.all_cats[cat.mate].name + ' 分手了')
                         self.all_cats[cat.mate].mate = None
                         cat.mate = None
                     else:
@@ -428,24 +428,24 @@ class Cat(object):
                         if valid_mates:
                             cat.mate = self.all_cats[cat_number].ID
                             self.all_cats[cat_number].mate = cat.ID
-                            append_str = str(cat.name) + ' and ' + str(
-                                self.all_cats[cat_number].name) + ' have become mates.'
+                            append_str = str(cat.name) + ' 和 ' + str(
+                                self.all_cats[cat_number].name) + ' 结为伴侣'
 
                         else:
-                            append_str = str(cat.name) + ' talks with ' + str(
-                                self.all_cats[cat_number].name) + ' about love.'
+                            append_str = str(cat.name) + ' 和 ' + str(
+                                self.all_cats[cat_number].name) + ' 谈论爱'
 
                     # angry mate
                 elif event_choice == 4:
                     # training
-                    if cat.status == 'apprentice':
-                        append_str = str(cat.name) + ' trains with their mentor, ' + str(cat.mentor.name)
+                    if cat.status == '学徒':
+                        append_str = str(cat.name) + ' 和他的导师 ' + str(cat.mentor.name + ' 一起训练')
                     elif cat.age in ['青少年', '青年', '成年', '中年']:
-                        append_str = str(cat.name) + ' learns some new moves from ' + str(
-                            self.all_cats[cat_number].name)
+                        append_str = str(cat.name) + ' 从 ' + str(
+                            self.all_cats[cat_number].name + ' 那里学到了些新动作')
                     else:
-                        append_str = str(cat.name) + ' sneaks out of the camp with ' + str(
-                            self.all_cats[cat_number].name)
+                        append_str = str(cat.name) + ' 和 ' + str(
+                            self.all_cats[cat_number].name + ' 偷偷溜出营地')
 
                 elif event_choice == 5:
 
@@ -453,22 +453,22 @@ class Cat(object):
                     if randint(1, 4) < 4 and cat.status != '幼崽':
                         kit = Cat(moons=0)
                         game.clan.add_cat(kit)
-                        append_str = str(cat.name) + ' adopts an abandoned kit named ' + str(kit.name)
+                        append_str = str(cat.name) + ' 收养了一只名叫 ' + str(kit.name) + ' 的幼崽'
                     else:
-                        kit = Cat(status='warrior', moons=14)
+                        kit = Cat(status='武士', moons=14)
                         game.clan.add_cat(kit)
-                        append_str = str(cat.name) + ' invites the loner ' + choice(
-                            names.loner_names) + ' to join. They change their name to' + str(kit.name) + ''
-                        kit.skill = 'formerly a loner'
+                        append_str = str(cat.name) + ' 邀请了一只名为 ' + choice(
+                            names.loner_names) + ' 的独行猫想要加入族群，他随即更名为 ' + str(kit.name) + ''
+                        kit.skill = '前独行猫'
 
                 elif event_choice == 6:
-                    append_str = str(cat.name) + ' and ' + str(
-                        self.all_cats[cat_number].name) + ' die of a contagious disease'
+                    append_str = str(cat.name) + ' 和 ' + str(
+                        self.all_cats[cat_number].name) + ' 死于传染病'
                     cat.dies()
                     self.all_cats[cat_number].dies()
                 else:
-                    append_str = str(cat.name) + ' interacted with ' + str(
-                        self.all_cats[cat_number].name)
+                    append_str = str(cat.name) + ' 与 ' + str(
+                        self.all_cats[cat_number].name + ' 互动')
 
             if game.cur_events_list is not None and append_str is not None and append_str != '':
                 game.cur_events_list.append(append_str)
@@ -486,46 +486,46 @@ class Cat(object):
             event = choice([1, 1, 2])  # 1:general event 2:new cat joins
             if event == 1:
                 if cat.status == '幼崽':
-                    interactions.extend([name + ' is scolded after sneaking out of camp',
-                                         name + ' falls into a river but is saved by ' + other_name])
-                elif cat.status in ['apprentice', '巫医学徒']:
-                    interactions.extend([name + ' is scolded after sneaking out of camp',
-                                         name + ' falls into a river but is saved by ' + other_name,
-                                         name + ' accidentally trespasses onto another clan\'s territory'])
-                elif cat.status == 'warrior':
-                    interactions.extend([name + ' is caught outside of the clan\'s territory',
-                                         name + ' is caught breaking the warrior code',
-                                         name + ' went missing for a few days',
-                                         name + ' believes they are a part of the new prophecy'])
+                    interactions.extend([name + ' 偷偷溜出营地后被训斥了',
+                                         name + ' 失足跌下河后被 ' + other_name + ' 救了上来'])
+                elif cat.status in ['学徒', '巫医学徒']:
+                    interactions.extend([name + ' 偷偷溜出营地后被训斥了',
+                                         name + ' 失足跌下河后被 ' + other_name + ' 救了上来',
+                                         name + ' 不小心闯入了另一个族群的营地'])
+                elif cat.status == '武士':
+                    interactions.extend([name + ' 在族群营地外被捉住了',
+                                         name + ' 因为违反武士守则被捉住了',
+                                         name + ' 失踪了好几天',
+                                         name + ' 相信自己是新预言的一部分'])
                 elif cat.status == '巫医':
                     interactions.extend(
-                        [name + ' learns of a new prophecy', name + ' is worried about an outbreak of greencough',
-                         name + ' is worried about how low their herb stores has gotten',
-                         name + 'visits the other 巫医s'])
-                elif cat.status == 'deputy':
-                    interactions.extend([name + ' thinks about retiring',
-                                         name + ' travels to the other clans to bring them an important message'])
-                elif cat.status == 'leader':
+                        [name + ' 得知了一个新预言', name + ' 很担心绿咳症的爆发',
+                         name + ' 因为缺少药草储存而担心',
+                         name + ' 在拜访其他的巫医'])
+                elif cat.status == '副族长':
+                    interactions.extend([name + ' 在考虑退居长老巢穴',
+                                         name + ' 给其他族群带去一则重要的信息'])
+                elif cat.status == '族长':
                     interactions.extend(
-                        [name + ' thinks about retiring', name + ' confesses they don\'t have many lives left',
-                         name + ' calls a clan meeting to give an important announcement'])
+                        [name + ' 在考虑退居长老巢穴', name + ' 承认他不剩几条命了',
+                         name + ' 为了宣布重要的信息召开族群大会'])
                 elif cat.status == '长老':
-                    interactions.extend([name + ' is brought back to camp after wandering off'])
+                    interactions.extend([name + ' 在迷路后被带回了营地'])
                 if cat.age == other_cat.age:
-                    interactions.extend([name + ' tries to convince ' + other_name + ' to run away together'])
+                    interactions.extend([name + ' 试图说服 ' + other_name + ' 一起私奔'])
                 if cat.mate == other_cat.ID:
                     if choice([1, 2, 3, 4]) == 1:
                         cat.mate = None
                         other_cat.mate = None
-                        game.cur_events_list.append(name + ' and ' + other_name + ' have broken up')
+                        game.cur_events_list.append(name + ' 和 ' + other_name + ' 分手了')
                         return
-                if cat.status not in ['幼崽', 'apprentice'] and other_cat.status not in ['幼崽',
-                                                                                           'apprentice'] and cat.ID not in [
+                if cat.status not in ['幼崽', '学徒'] and other_cat.status not in ['幼崽',
+                                                                                           '学徒'] and cat.ID not in [
                     other_cat.parent1, other_cat.parent2] and other_cat.ID not in [cat.parent1,
                                                                                    cat.parent2] and cat.mate is None and other_cat.mate is None and cat.age == other_cat.age:
                     cat.mate = other_cat.ID
                     other_cat.mate = cat.ID
-                    game.cur_events_list.append(name + ' and ' + other_name + ' have become mates')
+                    game.cur_events_list.append(name + ' 和 ' + other_name + ' 结为伴侣')
                     return
             elif event == 2:
                 if cat.age != '幼崽':
@@ -533,34 +533,34 @@ class Cat(object):
                     if type_of_new_cat == 1:
                         kit = Cat(moons=0)
                         game.clan.add_cat(kit)
-                        game.cur_events_list.extend([name + ' finds an abandoned kit and names them ' + str(kit.name)])
+                        game.cur_events_list.extend([name + ' 找到一只被遗弃的幼崽，并为他更名 ' + str(kit.name)])
                     elif type_of_new_cat == 2:
                         loner_name = choice(names.loner_names)
                         loner = Cat(prefix=loner_name, gender=choice(['雌性', '雄性']), status='warrior',
                                     moons=randint(12, 120), suffix='')
                         game.clan.add_cat(loner)
-                        game.cur_events_list.extend([name + ' finds a loner named ' + str(
-                            loner.name) + ' who wants to join the clan. They decide to keep their name'])
+                        game.cur_events_list.extend([name + ' 遇见一只名为 ' + str(
+                            loner.name) + ' 的独行猫加入族群，他决定保留自己的名字'])
                     elif type_of_new_cat == 3:
-                        loner = Cat(status='warrior', moons=randint(12, 120))
+                        loner = Cat(status='武士', moons=randint(12, 120))
                         game.clan.add_cat(loner)
-                        game.cur_events_list.extend([name + ' finds a loner named ' + choice(
-                            names.loner_names) + ' who wants to join the clan. They change their name to ' + str(
+                        game.cur_events_list.extend([name + ' 遇见一只名为 ' + choice(
+                            names.loner_names) + ' 的独行猫想要加入族群。他随即更名为 ' + str(
                             loner.name)])
                     elif type_of_new_cat == 4:
-                        warrior = Cat(status='warrior', moons=randint(12, 150))
+                        warrior = Cat(status='武士', moons=randint(12, 150))
                         game.clan.add_cat(warrior)
                         game.cur_events_list.extend(
-                            [name + ' finds a warrior from ' + choice(names.normal_prefixes) + 'Clan named ' + str(
-                                warrior.name) + ' who asks to join the clan'])
+                            [name + ' 遇见一只来自 ' + choice(names.normal_prefixes) + 'Clan，名为 ' + str(
+                                warrior.name) + ' 的武士，他想要加入族群'])
                     elif type_of_new_cat == 5:
                         loner_name = choice(names.loner_names)
-                        loner = Cat(prefix=loner_name, gender=choice(['雌性', '雄性']), status='warrior',
+                        loner = Cat(prefix=loner_name, gender=choice(['雌性', '雄性']), status='武士',
                                     moons=randint(12, 120), suffix='')
                         game.clan.add_cat(loner)
                         game.cur_events_list.extend(
-                            [name + ' finds a kittypet named ' + str(
-                                loner_name) + ' who wants to join the clan. They decide to keep their name'])
+                            [name + ' 遇见一只名为 ' + str(
+                                loner_name) + ' 的宠物猫想要加入族群，他决定保留自己的名字'])
                     elif type_of_new_cat == 6:
                         loner = Cat(status='warrior', moons=randint(12, 120))
                         game.clan.add_cat(loner)
@@ -577,24 +577,24 @@ class Cat(object):
                 cat.dies()
                 if game.cur_events_list is not None:
                     game.cur_events_list.append(
-                        str(cat.name) + ' was murdered at ' + str(cat.moons) + ' moons old')
+                        str(cat.name) + ' 在' + str(cat.moons) + '个月龄时被谋杀了')
             elif randint(1, 3) == 3:
                 cat.dies()
                 if game.cur_events_list is not None:
                     game.cur_events_list.append(
-                        str(cat.name) + ' died of greencough at ' + str(cat.moons) + ' moons old')
+                        str(cat.name) + ' 在' + str(cat.moons) + '个月龄时因染上绿咳症去世了')
             else:
                 cat.dies()
                 if game.cur_events_list is not None:
                     game.cur_events_list.append(
-                        str(cat.name) + ' died in an accident at ' + str(cat.moons) + ' moons old')
+                        str(cat.name) + ' 在' + str(cat.moons) + ' 个月龄时因意外去世了')
 
         if cat.moons > randint(150, 200):  # Cat dies of old age
             if choice([1, 2, 3, 4, 5, 6]) == 1:
                 cat.dies()
                 if game.cur_events_list is not None:
                     game.cur_events_list.append(
-                        str(cat.name) + ' has passed away at ' + str(cat.moons) + ' moons old')
+                        str(cat.name) + ' 在' + str(cat.moons) + ' 个月龄时加入了星族')
 
     def dies(self):  # This function is called every time a cat dies
         self.dead = True
@@ -620,7 +620,7 @@ class Cat(object):
                     chance = 0
             else:
                 game.cur_events_list.append(
-                    "Warning: " + str(self.name) + " has an invalid mate #" + str(self.mate) + ". This has been unset.")
+                    "警告: " + str(self.name) + " 不能与 #" + str(self.mate) + "结为伴侣")
                 self.mate = None
         else:
             chance = 50
@@ -641,15 +641,15 @@ class Cat(object):
             kits = choice([1, 1, 2, 2, 3, 3, 4])
             if hit == 1 and self.mate is not None:
                 if game.cur_events_list is not None:
-                    game.cur_events_list.append(str(self.name) + ' had a litter of ' + str(kits) + ' kit(s)')
+                    game.cur_events_list.append(str(self.name) + ' 拥有了' + str(kits) + '只幼崽')
                 else:
-                    game.cur_events_list = [str(self.name) + ' had a litter of ' + str(kits) + ' kit(s)']
+                    game.cur_events_list = [str(self.name) + ' 拥有了' + str(kits) + '只幼崽']
 
                 for kit in range(kits):
                     kit = Cat(parent1=self.ID, parent2=self.mate, moons=0)
                     game.clan.add_cat(kit)
             elif hit == 1:
-                game.cur_events_list.append(str(self.name) + ' had a litter of ' + str(kits) + ' kit(s)')
+                game.cur_events_list.append(str(self.name) + ' 拥有了' + str(kits) + '只幼崽')
 
                 for kit in range(kits):
                     kit = Cat(parent1=self.ID, moons=0)
@@ -665,7 +665,7 @@ class Cat(object):
             other_cat = self.all_cats.get(other_cat)
             other_name = str(other_cat.name)
             cat = self.all_cats.get(c)
-            thought = 'Is not thinking about much right now'  # placeholder thought - should never appear in game
+            thought = '没什么想法'  # placeholder thought - should never appear in game
             if cat.dead:
                 # individual thoughts
                 starclan_thoughts = ['Is feeling quite lazy', 'Is spending a considerable amount of time grooming',
@@ -705,7 +705,7 @@ class Cat(object):
                         'Is disappointed in ' + other_name,
                         'Wants to warn ' + other_name,
                         'Has been following the growth of ' + other_name])
-                if cat.status in ['幼崽', 'apprentice', '巫医学徒']:  # dead young cat thoughts
+                if cat.status in ['幼崽', '学徒', '巫医学徒']:  # dead young cat thoughts
                     starclan_thoughts.extend(['Wishes they had more time to grow up',
                                               'Wonders what their full name would have been',
                                               'Is bothering older StarClan cats',
@@ -715,7 +715,7 @@ class Cat(object):
                                               'Is happy that their joints no longer ache',
                                               'Is telling stories to the younger cats of StarClan',
                                               'Watches over the younger cats of StarClan', ])
-                elif cat.status == 'leader':  # dead leader thoughts
+                elif cat.status == '族长':  # dead leader thoughts
                     starclan_thoughts.extend(['Hoped that they were a good leader,'
                                               'Wishes that they had ten lives',
                                               'Is proud of their clan from StarClan', ])
@@ -732,13 +732,13 @@ class Cat(object):
                             'Is visiting the medicine den', 'Is having a good day', 'Is having a hard day',
                             'Is talking to themselves', 'Regrets not eating the bird on the freshkill pile earlier']
                 if other_cat.dead:  # thoughts with other cats who are dead
-                    if cat.status in ['幼崽', 'apprentice',
+                    if cat.status in ['幼崽', '学徒',
                                       '巫医学徒']:  # young cat thoughts about dead cat
                         thoughts.extend(['Is listening to stories about ' + other_name,
                                          'Is learning more about ' + other_name,
                                          'Is sad they couldn\'t spend time with ' + other_name])
-                    elif cat.status in ['warrior', '巫医', 'deputy',
-                                        'leader']:  # older cat thoughts about dead cat
+                    elif cat.status in ['武士', '巫医', '副族长',
+                                        '族长']:  # older cat thoughts about dead cat
                         thoughts.extend(['Is listening to stories about ' + other_name,
                                          'Is learning more about ' + other_name,
                                          'Is sad they couldn\'t spend more time with ' + other_name,
@@ -762,8 +762,8 @@ class Cat(object):
                                          'Saw ' + other_name + ' in a dream, warning them about... something',
                                          'Is asking for guidance from ' + other_name])
                 elif not other_cat.dead:  # thoughts with other cat who is alive
-                    if cat.status in ['warrior', '长老', 'deputy',
-                                      'leader'] and other_cat.status == 'apprentice':  # older cat thoughts about younger cat
+                    if cat.status in ['武士', '长老', '副族长',
+                                      '族长'] and other_cat.status == '学徒':  # older cat thoughts about younger cat
                         thoughts.extend(['Is giving ' + other_name + ' advice',
                                          'Is telling ' + other_name + ' about a hunting technique',
                                          'Is scolding ' + other_name,
@@ -779,8 +779,8 @@ class Cat(object):
                             thoughts.extend(
                                 ['Is biting ' + other_name + '\'s tail', 'Sticks their tongue out at ' + other_name,
                                  'Whines to ' + other_name])
-                    elif cat.status in ['apprentice', '巫医学徒', 'warrior', '巫医', 'deputy',
-                                        'leader']:
+                    elif cat.status in ['学徒', '巫医学徒', '武士', '巫医', '副族长',
+                                        '族长']:
                         if other_cat.status == '幼崽':  # older cat thoughts about kit
                             thoughts.extend(['Trips over ' + other_name, 'Is giving advice to ' + other_name])
                         else:
@@ -801,7 +801,7 @@ class Cat(object):
                                      'Thinks they saw a StarClan cat in their dreams', 'Wants to snuggle',
                                      'Wishes other cats would stop babying them', 'Is hiding from other cats',
                                      'Is bouncing around in excitement', 'Whines about being hungry'])
-                elif cat.status == 'apprentice':
+                elif cat.status == '学徒':
                     thoughts.extend(
                         ['Is thinking about the time they caught a huge rabbit', 'Wonders what their full name will be',
                          'Is irritating their mentor',
@@ -832,7 +832,7 @@ class Cat(object):
                          'Is looking forward to the half-moon meeting', 'Is wrapping a wound with cobwebs',
                          'Is clearing out old herbs', 'Is gathering death berries',
                          'Is proud of their ability to care for their clanmates', 'Chased kits out of their den'])
-                elif cat.status == 'warrior':
+                elif cat.status == '武士':
                     thoughts.extend(
                         ['Caught scent of a fox earlier', 'Caught scent of an enemy warrior earlier',
                          'Is helping gathering herbs', 'Is thinking about love', 'Is decorating their nest',
@@ -842,13 +842,13 @@ class Cat(object):
                          'Wants to go on a hunting patrol', 'Is hoping to lead the next patrol',
                          'Is guarding the camp entrance', 'Is thinking about kits', 'Is watching over the kits',
                          'Is gossiping', 'Plans to visit the 巫医'])
-                elif cat.status == 'deputy':
+                elif cat.status == '副族长':
                     thoughts.extend(
                         ['Is assigning cats to a border patrol', 'Is assigning cats to a hunting patrol',
                          'Is wondering what it would be like to be a leader', 'Is spending time alone',
                          'Tries to set a good example for younger cats', 'Is thinking about kits',
                          'Is stressed about organizing patrols', "Wonders who will give them nine lives"])
-                elif cat.status == 'leader':
+                elif cat.status == '族长':
                     thoughts.extend(
                         ['Is hoping for a sign from StarClan', 'Is hoping that they are leading their clan well',
                          'Thinks about who should mentor new apprentices', 'Is worried about clan relations',
@@ -877,13 +877,13 @@ class Cat(object):
         # revealing of traits and skills
         if self.status == '幼崽':
             self.trait = choice(self.traits)
-        if (self.status == 'apprentice' and new_status != '巫医学徒') or (
-                self.status == '巫医学徒' and new_status != 'apprentice'):
+        if (self.status == '学徒' and new_status != '巫医学徒') or (
+                self.status == '巫医学徒' and new_status != '学徒'):
             self.skill = choice(self.skills)
 
         self.status = new_status
         self.name.status = new_status
-        if 'apprentice' in new_status:
+        if '学徒' in new_status:
             self.update_mentor()
         # update class dictionary
         self.all_cats[self.ID] = self
@@ -895,10 +895,10 @@ class Cat(object):
         # Match jobs
         if self.status == '巫医学徒' and potential_mentor.status != '巫医':
             return False
-        if self.status == 'apprentice' and potential_mentor.status not in ['leader', 'deputy', 'warrior']:
+        if self.status == '学徒' and potential_mentor.status not in ['族长', '副族长', '武士']:
             return False
         # If not an app, don't need a mentor
-        if 'apprentice' not in self.status:
+        if '学徒' not in self.status:
             return False
         # dead cats don't need mentors
         if self.dead:
@@ -912,7 +912,7 @@ class Cat(object):
                 return
         old_mentor = self.mentor
         # Should only have mentor if alive and some kind of apprentice
-        if 'apprentice' in self.status and not self.dead:
+        if '学徒' in self.status and not self.dead:
             # Need to pick a random mentor if not specified
             if new_mentor is None:
                 potential_mentors = []
