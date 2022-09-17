@@ -355,13 +355,13 @@ class Cat(object):
                                 if randint(1, 3) == 3 and (
                                         cat.status == '武士' or cat.status == '副族长'):
                                     append_str = str(
-                                        cat.name) + ' retires the elder den after injuries sustained defending ' + str(
-                                        self.all_cats[cat_number].name)
+                                        cat.name) + ' 在保护 ' + str(
+                                        self.all_cats[cat_number].name + ' 时受伤，加入了长老的行列')
                                     cat.status_change('长老')
                                 else:
                                     append_str = str(cat.name) + ' 为了保护 ' + str(
                                         self.all_cats[cat_number].name) + ' 不被 ' + choice(
-                                        ['rogue', 'dog', 'fox', 'otter', 'rat', 'hawk'] + ' 伤害时留下了一道疤')
+                                        ['rogue', 'dog', 'fox', 'otter', 'rat', 'hawk']) + ' 伤害时留下了一道疤'
                         else:
                             cat.specialty = None
                             append_str = str(cat.name) + ' 试图说服 ' + str(
@@ -668,75 +668,75 @@ class Cat(object):
             thought = '没什么想法'  # placeholder thought - should never appear in game
             if cat.dead:
                 # individual thoughts
-                starclan_thoughts = ['Is feeling quite lazy', 'Is spending a considerable amount of time grooming',
-                                     'Is looking forward to today', 'Is feeling down...',
-                                     'Is feeling happy!', 'Is curious about other clans', 'Is feeling sassy today',
-                                     "Is thinking about a message to send", "Wishes they were still alive",
-                                     "Is admiring StarClan territory", "Is thinking about their life",
-                                     "Is missing a loved one",
-                                     "Is hoping to meet with a 巫医 soon", "Is admiring the stars in their fur",
-                                     "Is watching over a clan ceremony", "Is hoping to give a life to a new leader",
-                                     "Is hoping they will be remembered", "Is watching over the clan",
-                                     "Is worried about the clan",
-                                     "Is relaxing in the sun", "Is wondering about twolegs",
-                                     "Is thinking about their ancient ancestors",
-                                     "Is worried about the cats in the Dark Forest",
-                                     "Is thinking of advice to give to a 巫医"]
+                starclan_thoughts = ['感觉懒洋洋的', '花了很多时间打理毛发',
+                                     '盼望着今天的到来', '感到沮丧...',
+                                     '感到很开心！', '对其他族群感到好奇', '感觉今天活力四射！',
+                                     "正在思考要传达的消息", "希望自己仍旧活着",
+                                     "欣赏星族的领地", "思考自己的一生",
+                                     "正思念着至亲",
+                                     "希望尽快与巫医见面", "欣赏自己皮毛间的星辰",
+                                     "观看一个族群仪式", "希望自己能赐予新族长一条命",
+                                     "希望自己能被铭记", "正在观察族群",
+                                     "有些担心族群",
+                                     "在日光下放松", "有些担心两脚兽",
+                                     "思考自己的古代先祖",
+                                     "有些担心黑森林里的猫",
+                                     "正在思考要传递给巫医的建议"]
                 if other_cat.dead:
                     starclan_thoughts.extend([  # thoughts with other cats that are dead
-                        'Is sharing tongues with ' + other_name,
-                        'Has been spending time with ' + other_name + ' lately',
-                        'Is acting huffy at ' + other_name,
-                        'Is sharing a freshkill with ' + other_name,
-                        'Is curious about ' + other_name,
-                        'Is talking with ' + other_name,
-                        'Doesn\'t want to talk to ' + other_name,
-                        'Is having a serious fight with ' + other_name,
-                        'Wants to spend more time with ' + other_name + '!',
-                        'Is thinking about future prophecies with ' + other_name,
-                        'Is watching over the clan with ' + other_name])
+                        '正在与 ' + other_name + ' 分享舌头',
+                        '最近一直和 ' + other_name + ' 在一起',
+                        '对 ' + other_name + ' 很生气',
+                        '与 ' + other_name + ' 分享新鲜猎物',
+                        '对 ' + other_name + ' 很好奇',
+                        '正在和 ' + other_name + ' 交谈',
+                        '不想和 ' + other_name + ' 讲话',
+                        '与 ' + other_name + ' 发生了严重的争执',
+                        '想和 ' + other_name + ' 黏在一起!',
+                        '与 ' + other_name + ' 一起思考未来的预言',
+                        '与  ' + other_name + ' 一起注视着族群'])
                 elif not other_cat.dead:
                     starclan_thoughts.extend([  # thoughts with other cats that are alive
-                        'Is watching over ' + other_name,
-                        'Is curious about what ' + other_name + ' is doing',
-                        'Wants to send a message to ' + other_name,
-                        'Is currently walking in the dreams of ' + other_name,
-                        'Is proud of ' + other_name,
-                        'Is disappointed in ' + other_name,
-                        'Wants to warn ' + other_name,
-                        'Has been following the growth of ' + other_name])
+                        '正在注视着 ' + other_name,
+                        '好奇 ' + other_name + ' 此时在做些什么',
+                        '想要给 ' + other_name + ' 传递信息',
+                        '在 ' + other_name + ' 的梦中漫步',
+                        '为 ' + other_name + ' 感到骄傲',
+                        '对 ' + other_name + ' 很失望',
+                        '想要警告 ' + other_name,
+                        '一直在关注 ' + other_name + ' 的成长'])
                 if cat.status in ['幼崽', '学徒', '巫医学徒']:  # dead young cat thoughts
-                    starclan_thoughts.extend(['Wishes they had more time to grow up',
-                                              'Wonders what their full name would have been',
-                                              'Is bothering older StarClan cats',
-                                              'Is learning about the other cats in StarClan'])
-                elif cat.status == '长老':  # dead 长老 thoughts
-                    starclan_thoughts.extend(['Is grateful that they lived such a long life',
-                                              'Is happy that their joints no longer ache',
-                                              'Is telling stories to the younger cats of StarClan',
-                                              'Watches over the younger cats of StarClan', ])
+                    starclan_thoughts.extend(['希望自己有更多时间长大',
+                                              '想知道自己的名号会是什么',
+                                              '正在打搅星族的老猫',
+                                              '正在了解星族的其他猫'])
+                elif cat.status == '长老':  # dead elder thoughts
+                    starclan_thoughts.extend(['很庆幸自己能度过如此长的一生',
+                                              '为自己的关节不再疼痛而高兴',
+                                              '正在给年轻的星族猫讲故事',
+                                              '看护着年轻的星族猫', ])
                 elif cat.status == '族长':  # dead leader thoughts
-                    starclan_thoughts.extend(['Hoped that they were a good leader,'
-                                              'Wishes that they had ten lives',
-                                              'Is proud of their clan from StarClan', ])
+                    starclan_thoughts.extend(['希望自己是个好族长,'
+                                              '希望自己能有十条命',
+                                              '为自己来自星族感到骄傲', ])
                 thought = choice(starclan_thoughts)  # sets current thought to a random applicable thought
             elif not cat.dead:
                 # general individual thoughts
-                thoughts = ['Is feeling quite lazy', 'Is spending a considerable amount of time grooming',
-                            'Is looking forward to today', 'Is feeling down...', 'Is feeling excited',
-                            'Is feeling nervous', 'Is feeling content', "Is relaxing in camp", 'Is daydreaming',
-                            'Is napping', 'Thinks they are going crazy', 'Is feeling gloomy', "Is looking around camp",
-                            'Is feeling happy!', 'Is curious about the other clans', 'Is feeling sassy today',
-                            'Wants to spend time alone today', "Is eating some freshkill",
-                            'Is heading to the dirtplace', 'Is rethinking their life choices',
-                            'Is visiting the medicine den', 'Is having a good day', 'Is having a hard day',
-                            'Is talking to themselves', 'Regrets not eating the bird on the freshkill pile earlier']
+                thoughts = ['感觉懒洋洋的', '花了相当多时间打理毛发',
+                            '期待今天将要发生的事', '感到沮丧...', '感到很兴奋',
+                            '感到很紧张', '非常满足', "在营地中放松", '正在做白日梦',
+                            '正在打盹', '感觉自己要疯了', '有些忧郁', "正在环顾营地",
+                            '感到很开心！', '对其他族群很好奇', '感觉今天活力四射',
+                            '今天只想单独呆着', "正在吃新鲜猎物",
+                            '正前往厕所', '重新思考自己的猫生选择',
+                            '拜访巫医巢穴', '度过了美好的一天', '度过了艰难的一天',
+                            '正在自言自语', '后悔没有早点吃猎物堆上的鸟']
                 if other_cat.dead:  # thoughts with other cats who are dead
                     if cat.status in ['幼崽', '学徒',
                                       '巫医学徒']:  # young cat thoughts about dead cat
-                        thoughts.extend(['Is listening to stories about ' + other_name,
-                                         'Is learning more about ' + other_name,
-                                         'Is sad they couldn\'t spend time with ' + other_name])
+                        thoughts.extend(['正在聆听 ' + other_name + ' 的故事',
+                                         '想要更加了解 ' + other_name,
+                                         '因为不能和 ' + other_name + ' 呆在一起而感到难过'])
                     elif cat.status in ['武士', '巫医', '副族长',
                                         '族长']:  # older cat thoughts about dead cat
                         thoughts.extend(['Is listening to stories about ' + other_name,
@@ -744,7 +744,7 @@ class Cat(object):
                                          'Is sad they couldn\'t spend more time with ' + other_name,
                                          'Wishes they could visit ' + other_name + ' in StarClan',
                                          'Is remembering ' + other_name])
-                    if cat.status == '长老':  # 长老 thoughts about dead cat
+                    if cat.status == '长老':  # elder thoughts about dead cat
                         thoughts.extend(['Is telling stories about ' + other_name,
                                          'Is sad they couldn\'t spend more time with ' + other_name,
                                          'Wishes they could visit ' + other_name + ' in StarClan',
@@ -753,7 +753,7 @@ class Cat(object):
                                          'Found a trinket that used to belong to ' + other_name,
                                          'Is forgetting who ' + other_name + ' was',
                                          'Is thinking fondly of ' + other_name])
-                    if cat.status == '巫医' or cat.status == '巫医学徒' or cat.skill == 'strong connection to starclan':  # 巫医/strong connection thoughts about dead cat
+                    if cat.status == '巫医' or cat.status == '巫医学徒' or cat.skill == 'strong connection to starclan':  # medicine cat/strong connection thoughts about dead cat
                         thoughts.extend(['Was given a prophecy by ' + other_name,
                                          'Was sent an omen by ' + other_name,
                                          'Is dreaming about ' + other_name + ' who gives them a message',
