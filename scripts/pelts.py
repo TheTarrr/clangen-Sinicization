@@ -118,7 +118,7 @@ tortie_pattern = ['ONE', 'TWO', 'FADEDONE', 'FADEDTWO', 'BLUEONE', 'BLUETWO']
 calico_pattern = ['ONE', 'TWO', 'THREE', 'FOUR', 'FADEDONE', 'FADEDTWO', 'FADEDTHREE', 'FADEDFOUR', 'BLUEONE',
                   'BLUETWO', 'BLUETHREE', 'BLUEFOUR']
 
-pelt_length = ["short", "medium", "medium", "long"]
+pelt_length = ["短毛", "中长毛", "中长毛", "长毛"]
 eye_colours = ['YELLOW', 'AMBER', 'HAZEL', 'PALEGREEN', 'GREEN', 'BLUE', 'DARKBLUE']
 scars1 = ["ONE", "TWO", "THREE"]
 scars2 = ["LEFTEAR", "RIGHTEAR", "LEFTEAR", "RIGHTEAR", "NOTAIL"]
@@ -147,13 +147,13 @@ def choose_pelt(gender, colour=None, white=None, pelt=None, length=None, determi
     if pelt is None:
         a = randint(0, 100)
         if a != 1:
-            if gender == "female":
+            if gender == "雌性":
                 pelt = choice(pelt_names_F)
             else:
                 pelt = choice(pelt_names_M)
         else:
             pelt = choice(pelt_names_F)
-            if gender == 'male' and pelt in ['Tortie', 'Calico']:
+            if gender == '雄性' and pelt in ['Tortie', 'Calico']:
                 print("Male tortie/calico!")
 
     elif pelt in ['Tortie', 'Calico'] and gender == 'male' and not determined:

@@ -177,14 +177,14 @@ class ClanScreen(Screens):
 
         for x in game.clan.clan_cats:
             i = randint(0, 20)
-            if cat_class.all_cats[x].status == 'warrior':
+            if cat_class.all_cats[x].status == '武士':
                 if i < 15:  # higher chance for warriors to end up in warriors den or the clearing
                     cat_class.all_cats[x].placement = choice([choice(p['warrior place']), choice(p['clearing place'])])
                 else:
                     cat_class.all_cats[x].placement = choice([choice(p['nursery place']), choice(p['leader place']),
                                                               choice(p['elder place']), choice(p['medicine place']),
                                                               choice(p['apprentice place'])])
-            elif cat_class.all_cats[x].status == 'deputy':
+            elif cat_class.all_cats[x].status == '副族长':
                 if i < 17:  # higher chance for deputies to end up in warrior den, clearing OR leader den
                     cat_class.all_cats[x].placement = choice(
                         [choice(p['warrior place']), choice(p['leader place']), choice(p['clearing place'])])
@@ -192,7 +192,7 @@ class ClanScreen(Screens):
                     cat_class.all_cats[x].placement = choice([choice(p['nursery place']), choice(p['leader place']),
                                                               choice(p['elder place']), choice(p['medicine place']),
                                                               choice(p['apprentice place'])])
-            elif cat_class.all_cats[x].status == 'kitten':
+            elif cat_class.all_cats[x].status == '幼崽':
                 if i < 13:
                     cat_class.all_cats[x].placement = choice(p['nursery place'])
                 elif i == 19:
@@ -201,9 +201,9 @@ class ClanScreen(Screens):
                     cat_class.all_cats[x].placement = choice([choice(p['clearing place']), choice(p['warrior place']),
                                                               choice(p['elder place']), choice(p['medicine place']),
                                                               choice(p['apprentice place'])])
-            elif cat_class.all_cats[x].status == 'elder':
+            elif cat_class.all_cats[x].status == '长老':
                 cat_class.all_cats[x].placement = choice(p['elder place'])
-            elif cat_class.all_cats[x].status == 'apprentice':
+            elif cat_class.all_cats[x].status == '学徒':
                 if i < 13:
                     cat_class.all_cats[x].placement = choice([choice(p['apprentice place']),
                                                               choice(p['clearing place'])])
@@ -212,9 +212,9 @@ class ClanScreen(Screens):
                 else:
                     cat_class.all_cats[x].placement = choice([choice(p['nursery place']), choice(p['warrior place']),
                                                               choice(p['elder place']), choice(p['medicine place'])])
-            elif cat_class.all_cats[x].status == 'medicine cat apprentice':
+            elif cat_class.all_cats[x].status == '巫医学徒':
                 cat_class.all_cats[x].placement = choice(p['medicine place'])
-            elif cat_class.all_cats[x].status == 'medicine cat':
+            elif cat_class.all_cats[x].status == '巫医':
                 cat_class.all_cats[x].placement = choice(p['medicine place'])
 
 
@@ -222,7 +222,7 @@ class StarClanScreen(Screens):
     def on_use(self):
         # layout
         verdana_big.text(game.clan.name + 'Clan', ('center', 30))
-        verdana.text('StarClan Cat List', ('center', 100))
+        verdana.text('星族猫', ('center', 100))
 
         # make a list of just dead cats
         dead_cats = [game.clan.instructor]
@@ -277,7 +277,7 @@ class StarClanScreen(Screens):
 class MakeClanScreen(Screens):
     def first_phase(self):
         # layout
-        verdana_big.text('NAME YOUR CLAN!', ('center', 150))
+        verdana_big.text('命名你的族群！', ('center', 150))
         self.game_screen.blit(game.naming_box, (310, 200))
         if game.settings['dark mode']:
             verdana_black.text(game.switches['naming_text'], (315, 200))
@@ -296,9 +296,9 @@ class MakeClanScreen(Screens):
     def second_phase(self):
         # LAYOUT
         verdana.text(game.switches['clan_name'] + 'Clan', ('center', 90))
-        verdana.text('These twelve cats are your potential clan members.', ('center', 115))
-        verdana.text('Some of them will be left behind.', ('center', 135))
-        verdana.text('First, pick a leader to lead ' + game.switches['clan_name'] + 'Clan through any difficulties.',
+        verdana.text('这十二只猫是你的潜在族员。', ('center', 115))
+        verdana.text('他们中的一些人将被留下。', ('center', 135))
+        verdana.text('首先，选择一个族长，带领 ' + game.switches['clan_name'] + 'Clan 渡过难关。',
                      ('center', 160))
 
         # cat buttons / small sprites
@@ -316,15 +316,15 @@ class MakeClanScreen(Screens):
                          game.choose_cats[game.switches['cat']].name.prefix + 'star', ('center', 360))
             verdana_small.text(str(game.choose_cats[game.switches['cat']].gender), (330, 385))
             verdana_small.text(str(game.choose_cats[game.switches['cat']].age), (330, 405))
-            if game.choose_cats[game.switches['cat']].age == 'kitten':
+            if game.choose_cats[game.switches['cat']].age == '幼崽':
                 verdana_baby.text(str(game.choose_cats[game.switches['cat']].trait), (330, 425))
             else:
                 verdana_small.text(str(game.choose_cats[game.switches['cat']].trait), (330, 425))
 
             if game.choose_cats[game.switches['cat']].age in ['kitten', 'adolescent']:
-                verdana_red.text('Too young to become leader.', ('center', 490))
+                verdana_red.text('对于族长来说太年轻了。', ('center', 490))
             else:
-                buttons.draw_button(('center', 490), text='Grant this cat their nine lives',
+                buttons.draw_button(('center', 490), text='赐予这只猫九条命',
                                     leader=game.switches['cat'])
 
         # buttons
@@ -334,7 +334,7 @@ class MakeClanScreen(Screens):
 
     def third_phase(self):
         verdana.text(game.switches['clan_name'] + 'Clan', ('center', 90))
-        verdana.text('Second, choose your deputy. This cat will support their leader and take over if things go awry.',
+        verdana.text('下一步，选择你的副族长。 这只猫会支持族长，并在出现问题时代理。',
                      ('center', 120))
 
         # cat buttons / small sprites
@@ -360,11 +360,11 @@ class MakeClanScreen(Screens):
             verdana_small.text(str(game.choose_cats[game.switches['cat']].age), (330, 405))
             verdana_small.text(str(game.choose_cats[game.switches['cat']].trait), (330, 425))
 
-            if game.choose_cats[game.switches['cat']].age == 'kitten' or game.choose_cats[
-                game.switches['cat']].status == 'apprentice':
-                verdana_red.text('Too young to become deputy.', ('center', 490))
+            if game.choose_cats[game.switches['cat']].age == '幼崽' or game.choose_cats[
+                game.switches['cat']].status == '学徒':
+                verdana_red.text('对于副族长来说太年轻了。', ('center', 490))
             else:
-                buttons.draw_button(('center', 490), text='This cat will support the leader',
+                buttons.draw_button(('center', 490), text='这只猫会支持他的族长。',
                                     deputy=game.switches['cat'])
 
         # buttons
@@ -375,7 +375,7 @@ class MakeClanScreen(Screens):
     def fourth_phase(self):
         # LAYOUT
         verdana.text(game.switches['clan_name'] + 'Clan', ('center', 90))
-        verdana.text('Third, pick your medicine cat. They will aid the sick and wounded and communicate with StarClan.',
+        verdana.text('第三步，选择你的巫医。他将帮助病患和伤员，并与星族沟通。',
                      ('center', 120))
 
         # cat buttons / small sprites
@@ -405,11 +405,11 @@ class MakeClanScreen(Screens):
             verdana_small.text(str(game.choose_cats[game.switches['cat']].age), (330, 405))
             verdana_small.text(str(game.choose_cats[game.switches['cat']].trait), (330, 425))
 
-            if game.choose_cats[game.switches['cat']].age == 'kitten' or game.choose_cats[
-                game.switches['cat']].status == 'kitten':
-                verdana_red.text('Too young to become medicine cat.', ('center', 490))
+            if game.choose_cats[game.switches['cat']].age == '幼崽' or game.choose_cats[
+                game.switches['cat']].status == '幼崽':
+                verdana_red.text('对于巫医来说太年轻了。', ('center', 490))
             else:
-                buttons.draw_button(('center', 490), text='This cat will take care of the clan',
+                buttons.draw_button(('center', 490), text='这只猫会照顾他的族群。',
                                     medicine_cat=game.switches['cat'])
 
         # buttons
@@ -420,8 +420,8 @@ class MakeClanScreen(Screens):
     def fifth_phase(self):
         # LAYOUT
         verdana.text(game.switches['clan_name'] + 'Clan', ('center', 90))
-        verdana.text('Finally, recruit from 4 to 7 more members to your clan.', ('center', 120))
-        verdana.text('Choose wisely...', ('center', 150))
+        verdana.text('最后，再招募4至7名成员加入你的族群。', ('center', 120))
+        verdana.text('谨慎的选择...', ('center', 150))
 
         # cat buttons / small sprites
         for u in range(6):
@@ -608,18 +608,18 @@ class ProfileScreen(Screens):
         count += 1  # SEX / GENDER
         verdana_small.text(the_cat.status, (450, 330 + count2 * 15));
         count2 += 1  # STATUS
-        if 'apprentice' in the_cat.status:
+        if '学徒' in the_cat.status:
             if the_cat.mentor is None:
                 the_cat.update_mentor()
             if the_cat.mentor is not None:
-                verdana_small.text('mentor: ' + str(the_cat.mentor.name), (450, 330 + count2 * 15))
+                verdana_small.text('导师: ' + str(the_cat.mentor.name), (450, 330 + count2 * 15))
                 count2 += 1
         if len(the_cat.apprentice) != 0:
             apps = ''
             if len(the_cat.apprentice) == 1:
-                apps = 'apprentice: ' + str(the_cat.apprentice[0].name)
+                apps = '学徒: ' + str(the_cat.apprentice[0].name)
             else:
-                apps = 'apprentices: '
+                apps = '学徒: '
                 for cat in the_cat.apprentice:
                     apps += str(cat.name) + ', '
                 apps = apps[:len(apps) - 2]
@@ -628,17 +628,17 @@ class ProfileScreen(Screens):
         if len(the_cat.former_apprentices) != 0:
             former_apps = ''
             if len(the_cat.former_apprentices) == 1:
-                former_apps = 'former apprentice: ' + str(the_cat.former_apprentices[0].name)
+                former_apps = '前学徒: ' + str(the_cat.former_apprentices[0].name)
             else:
-                former_apps = 'former apprentices: '
+                former_apps = '前学徒: '
                 for cat in the_cat.former_apprentices:
                     former_apps += str(cat.name) + ', '
                 former_apps = former_apps[:len(former_apps) - 2]
             verdana_small.text(former_apps, (450, 330 + count2 * 15))
             count2 += 1
-        if the_cat.age == 'kitten':
+        if the_cat.age == '幼崽':
             verdana_small.text('young', (250, 330 + count * 15))
-        elif the_cat.age == 'elder':
+        elif the_cat.age == '长老':
             verdana_small.text('senior', (250, 330 + count * 15))
         else:
             verdana_small.text(the_cat.age, (250, 330 + count * 15))
@@ -717,53 +717,53 @@ class ProfileScreen(Screens):
         # if the_cat.status == 'apprentice':
         #     buttons.draw_button(('center', -130), text='Change Mentor')
 
-        if the_cat.age in ['young adult', 'adult', 'senior adult', 'elder'] and not the_cat.dead:
+        if the_cat.age in ['青年', '成年', '中年', '长老'] and not the_cat.dead:
             buttons.draw_button(('center', -130), text='Pick mate for ' + str(the_cat.name),
                                 cur_screen='choose mate screen')
 
         if game.switches['new_leader'] is not False and game.switches['new_leader'] is not None:
             game.clan.new_leader(game.switches['new_leader'])
 
-        if the_cat.status in ['warrior'] and not the_cat.dead and game.clan.leader.dead:
+        if the_cat.status in ['武士'] and not the_cat.dead and game.clan.leader.dead:
             buttons.draw_button(('center', -70), text='Promote to Leader', new_leader=the_cat)
-        elif the_cat.status in ['warrior'] and not the_cat.dead and game.clan.deputy is None:
+        elif the_cat.status in ['武士'] and not the_cat.dead and game.clan.deputy is None:
             buttons.draw_button(('center', -70), text='Promote to Deputy', deputy_switch=the_cat)
-        elif the_cat.status in ['deputy'] and not the_cat.dead:
+        elif the_cat.status in ['副族长'] and not the_cat.dead:
             buttons.draw_button(('center', -70), text='Demote from Deputy', deputy_switch=the_cat)
-        elif the_cat.status in ['warrior'] and not the_cat.dead and game.clan.deputy:
+        elif the_cat.status in ['武士'] and not the_cat.dead and game.clan.deputy:
             if game.clan.deputy.dead:
                 buttons.draw_button(('center', -70), text='Promote to Deputy', deputy_switch=the_cat)
 
         if game.switches['deputy_switch'] is not False and game.switches['deputy_switch'] is not None and game.switches[
-            'deputy_switch'].status == 'warrior':
+            'deputy_switch'].status == '武士':
             game.clan.deputy = game.switches['deputy_switch']
-            game.switches['deputy_switch'].status_change('deputy')
+            game.switches['deputy_switch'].status_change('副族长')
             game.switches['deputy_switch'] = False
         elif game.switches['deputy_switch'] is not False and game.switches['deputy_switch'] is not None and \
                 game.switches[
-                    'deputy_switch'].status == 'deputy':
+                    'deputy_switch'].status == '副族长':
             game.clan.deputy = None
-            game.switches['deputy_switch'].status_change('warrior')
+            game.switches['deputy_switch'].status_change('武士')
             game.switches['deputy_switch'] = False
 
         if game.switches['apprentice_switch'] is not False and game.switches['apprentice_switch'] is not None and \
-                game.switches['apprentice_switch'].status == 'apprentice':
-            game.switches['apprentice_switch'].status_change('medicine cat apprentice')
+                game.switches['apprentice_switch'].status == '学徒':
+            game.switches['apprentice_switch'].status_change('m巫医学徒')
             game.switches['apprentice_switch'] = False
 
         if game.switches['apprentice_switch'] is not False and game.switches['apprentice_switch'] is not None and \
-                game.switches['apprentice_switch'].status == 'medicine cat apprentice':
-            game.switches['apprentice_switch'].status_change('apprentice')
+                game.switches['apprentice_switch'].status == '巫医学徒':
+            game.switches['apprentice_switch'].status_change('学徒')
             game.switches['apprentice_switch'] = False
 
         if game.switches['kill_cat'] is not False and game.switches['kill_cat'] is not None:
             game.switches['kill_cat'].dies()
             game.switches['kill_cat'] = False
 
-        if the_cat.status in ['apprentice'] and not the_cat.dead:
+        if the_cat.status in ['学徒'] and not the_cat.dead:
             buttons.draw_button(('center', -70), text='Switch to medicine cat apprentice', apprentice_switch=the_cat)
 
-        if the_cat.status in ['medicine cat apprentice'] and not the_cat.dead:
+        if the_cat.status in ['巫医学徒'] and not the_cat.dead:
             buttons.draw_button(('center', -70), text='Switch to warrior apprentice', apprentice_switch=the_cat)
 
         buttons.draw_button(('center', -100), text='Back', cur_screen=game.switches['last_screen'])
@@ -901,7 +901,7 @@ class ChooseMateScreen(Screens):
             verdana_small.text(mate.gender, (-100, 215))
             verdana_small.text(mate.trait, (-100, 230))
 
-            if the_cat.gender == mate.gender or 'elder' in [the_cat.age, mate.age]:
+            if the_cat.gender == mate.gender or '长老' in [the_cat.age, mate.age]:
                 if the_cat.gender == mate.gender and not game.settings['no gendered breeding']:
                     verdana_small.text('(this pair will not be able to have kittens)', ('center', 320))
 
@@ -915,17 +915,17 @@ class ChooseMateScreen(Screens):
                 pos_mate = cat_class.all_cats[x]
 
                 # makign sure the pairing is possible and appropriate
-                if not pos_mate.dead and pos_mate.age in ['young adult', 'adult', 'senior adult', 'elder'] and \
+                if not pos_mate.dead and pos_mate.age in ['青年', '成年', '中年', '长老'] and \
                         the_cat != pos_mate and the_cat.ID not in [pos_mate.parent1, pos_mate.parent2] and \
                         pos_mate.ID not in [the_cat.parent1, the_cat.parent2] and pos_mate.mate is None and \
                         (pos_mate.parent1 is None or pos_mate.parent1 not in [the_cat.parent1, the_cat.parent2]) and \
                         (pos_mate.parent2 is None or pos_mate.parent2 not in [the_cat.parent1, the_cat.parent2]):
 
                     # Making sure the ages are appropriate
-                    if (the_cat.age in ['senior adult', 'elder'] and cat_class.all_cats[x].age in ['senior adult',
-                                                                                                   'elder']) or (
-                            cat_class.all_cats[x].age != 'elder' and cat_class.all_cats[
-                        x].age != 'adolescent' and the_cat.age != 'elder' and the_cat.age != 'adolescent'):
+                    if (the_cat.age in ['中年', '长老'] and cat_class.all_cats[x].age in ['中年',
+                                                                                                   '长老']) or (
+                            cat_class.all_cats[x].age != '长老' and cat_class.all_cats[
+                        x].age != '青少年' and the_cat.age != '长老' and the_cat.age != '青少年'):
                         valid_mates.append(cat_class.all_cats[x])
 
             all_pages = 1  # amount of pages
@@ -1082,7 +1082,7 @@ class PatrolScreen(Screens):
         for x in range(len(cat_class.all_cats.values())):
             the_cat = list(cat_class.all_cats.values())[x]
             if not the_cat.dead and the_cat.in_camp:
-                if the_cat.status in ['leader', 'deputy', 'warrior', 'apprentice']:
+                if the_cat.status in ['族长', '副族长', '武士', '学徒']:
                     able_cats.append(the_cat)
 
         # pick up to 12 random cats (warriors/leader/deputy/apprentice) from the clan
@@ -1217,7 +1217,7 @@ class AllegiancesScreen(Screens):
         dep = None
         for x in range(len(cat_class.all_cats.values())):
             the_cat = list(cat_class.all_cats.values())[x]
-            if the_cat.status == 'deputy':
+            if the_cat.status == '副族长':
                 dep = the_cat
             elif not the_cat.dead:
                 living_cats.append(the_cat)
@@ -1235,7 +1235,7 @@ class AllegiancesScreen(Screens):
 
         cat_count = 0
         for j in range(len(living_cats)):
-            if str(living_cats[j].status) == 'medicine cat':
+            if str(living_cats[j].status) == '巫医':
                 if not cat_count:
                     game.allegiance_list.append(
                         ['MEDICINE CAT:', str(living_cats[j].name) + " - a " + living_cats[j].describe_cat()])
@@ -1249,20 +1249,20 @@ class AllegiancesScreen(Screens):
 
         queens = []
         for j in range(len(living_cats)):
-            if str(living_cats[j].status) == 'kitten':
+            if str(living_cats[j].status) == '幼崽':
                 if living_cats[j].parent1 is not None:
-                    if cat_class.all_cats[living_cats[j].parent1].gender == 'male':
+                    if cat_class.all_cats[living_cats[j].parent1].gender == '雄性':
                         if living_cats[j].parent2 is None or cat_class.all_cats[
-                            living_cats[j].parent2].gender == 'male':
+                            living_cats[j].parent2].gender == '雄性':
                             queens.append(living_cats[j].parent1)
-                        elif cat_class.all_cats[living_cats[j].parent2].gender == 'male':
+                        elif cat_class.all_cats[living_cats[j].parent2].gender == '雄性':
                             queens.append(living_cats[j].parent2)
                     else:
                         queens.append(living_cats[j].parent1)
 
         cat_count = 0
         for j in range(len(living_cats)):
-            if str(living_cats[j].status) == 'warrior' and living_cats[j].ID not in queens:
+            if str(living_cats[j].status) == '武士' and living_cats[j].ID not in queens:
                 if not cat_count:
                     game.allegiance_list.append(
                         ['WARRIORS:', str(living_cats[j].name) + " - a " + living_cats[j].describe_cat()])
@@ -1275,7 +1275,7 @@ class AllegiancesScreen(Screens):
 
         cat_count = 0
         for j in range(len(living_cats)):
-            if str(living_cats[j].status) == 'apprentice' or str(living_cats[j].status) == 'medicine cat apprentice':
+            if str(living_cats[j].status) == '学徒' or str(living_cats[j].status) == '巫医学徒':
                 if not cat_count:
                     game.allegiance_list.append(
                         ['APPRENTICES:', str(living_cats[j].name) + " - a " + living_cats[j].describe_cat()])
@@ -1301,7 +1301,7 @@ class AllegiancesScreen(Screens):
 
         cat_count = 0
         for j in range(len(living_cats)):
-            if str(living_cats[j].status) == 'elder':
+            if str(living_cats[j].status) == '长老':
                 if not cat_count:
                     game.allegiance_list.append(
                         ['ELDERS:', str(living_cats[j].name) + " - a " + living_cats[j].describe_cat()])
@@ -1314,7 +1314,7 @@ class AllegiancesScreen(Screens):
 
         cat_count = 0
         for j in range(len(living_cats)):
-            if str(living_cats[j].status) == 'kitten':
+            if str(living_cats[j].status) == '幼崽':
                 if not cat_count:
                     game.allegiance_list.append(
                         ['KITS:', str(living_cats[j].name) + " - a " + living_cats[j].describe_cat()])

@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 from .pelts import *
 from .names import *
 from .sprites import *
@@ -153,23 +153,23 @@ class Cat(object):
 
         # random event
         if self.pelt is not None:
-            if self.pelt.length != '长':
+            if self.pelt.length != '长毛':
                 self.age_sprites['成年'] = randint(6, 8)
             else:
                 self.age_sprites['成年'] = randint(0, 2)
             self.age_sprites['青年'] = self.age_sprites['成年']
             self.age_sprites['中年'] = self.age_sprites['成年']
-            self.age_sprites['dead'] = None  # The sprite that the cat has in starclan
+            self.age_sprites['死亡'] = None  # The sprite that the cat has in starclan
 
             # WHITE PATCHES
             if self.pelt.white and self.pelt.white_patches is not None:
                 pelt_choice = randint(0, 10)
-                if pelt_choice == 1 and self.pelt.name in ['三色', '双色', '虎斑', '点斑'] \
+                if pelt_choice == 1 and self.pelt.name in ['Calico', 'TwoColour', 'Tabby', 'Speckled'] \
                         and self.pelt.colour != 'WHITE':
                     self.white_patches = choice(['COLOURPOINT', 'COLOURPOINTCREAMY', 'RAGDOLL'])
-                elif pelt_choice == 1 and self.pelt.name in ['三色', '双色', '虎斑', '点斑']:
+                elif pelt_choice == 1 and self.pelt.name in ['Calico', 'TwoColour', 'Tabby', 'Speckled']:
                     self.white_patches = choice(['COLOURPOINT', 'RAGDOLL'])
-                elif self.pelt.name in ['虎斑', '点斑', '双色'] and self.pelt.colour == 'WHITE':
+                elif self.pelt.name in ['Tabby', 'Speckled', 'TwoColour'] and self.pelt.colour == 'WHITE':
                     self.white_patches = choice(
                         ['ANY', 'TUXEDO', 'LITTLE', 'VAN', 'ANY2', 'ONEEAR', 'BROKEN', 'LIGHTTUXEDO', 'BUZZARDFANG',
                          'LIGHTSONG', 'VITILIGO'])
@@ -179,9 +179,9 @@ class Cat(object):
                 self.white_patches = choice(['EXTRA', None, None])
 
             # pattern for tortie/calico cats
-            if self.pelt.name == '三色':
+            if self.pelt.name == 'Calico':
                 self.pattern = choice(calico_pattern)
-            elif self.pelt.name == '玳瑁':
+            elif self.pelt.name == 'Tortie':
                 self.pattern = choice(tortie_pattern)
             else:
                 self.pattern = None
@@ -209,7 +209,7 @@ class Cat(object):
         return self.ID
 
     def one_moon(self):  # Go forward in time one moon
-        if game.switches['进入下个月']:
+        if game.switches['timeskip']:
             key_copy = tuple(cat_class.all_cats.keys())
             for index, i in enumerate(key_copy):
                 cat = cat_class.all_cats[i]
@@ -263,7 +263,7 @@ class Cat(object):
                     cat.status_change('学徒')
                     game.cur_events_list.append(str(cat.name) + ' 开启了学徒生涯')
                 elif cat.status == '学徒' and cat.age == '青年':
-                    cat.status_change('warrior')
+                    cat.status_change('武士')
                     cat.update_mentor()
                     game.cur_events_list.append(str(cat.name) + ' 获得了武士封号')
                 elif cat.status == '巫医学徒' and cat.age == '青年':
@@ -386,7 +386,7 @@ class Cat(object):
                 elif event_choice == 2:
                     if cat.status == '族长':
                         append_str = str(cat.name) + ' 向 ' + str(self.all_cats[
-                                                                                cat_number].name) + ' 承认族长肩负着沉重的责任'
+                                                                     cat_number].name) + ' 承认族长肩负着沉重的责任'
                     elif game.clan.current_season == '秃叶季' and cat.status == '幼崽':
                         cat.dies()
                         append_str = str(self.all_cats[cat_number].name) + ' 发现 ' + str(
@@ -419,7 +419,7 @@ class Cat(object):
                             # Making sure the ages are appropriate
                             if (cat.age in ['中年', '长老'] and self.all_cats[cat_number].age in [
                                 '中年', '长老']) or (self.all_cats[
-                                                                  cat_number].age != '长老' and cat.age != '长老' and cat.age != '幼崽' and cat.age != '青少年'):
+                                                     cat_number].age != '长老' and cat.age != '长老' and cat.age != '幼崽' and cat.age != '青少年'):
                                 valid_mates = 1
 
                         if self.all_cats[cat_number].ID == cat.ID:
@@ -520,7 +520,7 @@ class Cat(object):
                         game.cur_events_list.append(name + ' 和 ' + other_name + ' 分手了')
                         return
                 if cat.status not in ['幼崽', '学徒'] and other_cat.status not in ['幼崽',
-                                                                                           '学徒'] and cat.ID not in [
+                                                                               '学徒'] and cat.ID not in [
                     other_cat.parent1, other_cat.parent2] and other_cat.ID not in [cat.parent1,
                                                                                    cat.parent2] and cat.mate is None and other_cat.mate is None and cat.age == other_cat.age:
                     cat.mate = other_cat.ID
@@ -536,7 +536,7 @@ class Cat(object):
                         game.cur_events_list.extend([name + ' 找到一只被遗弃的幼崽，并为他更名 ' + str(kit.name)])
                     elif type_of_new_cat == 2:
                         loner_name = choice(names.loner_names)
-                        loner = Cat(prefix=loner_name, gender=choice(['雌性', '雄性']), status='warrior',
+                        loner = Cat(prefix=loner_name, gender=choice(['雌性', '雄性']), status='武士',
                                     moons=randint(12, 120), suffix='')
                         game.clan.add_cat(loner)
                         game.cur_events_list.extend([name + ' 遇见一只名为 ' + str(
@@ -562,7 +562,7 @@ class Cat(object):
                             [name + ' 遇见一只名为 ' + str(
                                 loner_name) + ' 的宠物猫想要加入族群，他决定保留自己的名字'])
                     elif type_of_new_cat == 6:
-                        loner = Cat(status='warrior', moons=randint(12, 120))
+                        loner = Cat(status='武士', moons=randint(12, 120))
                         game.clan.add_cat(loner)
                         game.cur_events_list.extend([name + ' finds a kittypet named ' + choice(
                             names.loner_names) + ' who wants to join the clan. They change their name to ' + str(
@@ -736,135 +736,135 @@ class Cat(object):
                                       '巫医学徒']:  # young cat thoughts about dead cat
                         thoughts.extend(['正在聆听 ' + other_name + ' 的故事',
                                          '想要更加了解 ' + other_name,
-                                         '因为不能和 ' + other_name + ' 呆在一起而感到难过'])
+                                         '因为不能继续和 ' + other_name + ' 呆在一起而感到难过'])
                     elif cat.status in ['武士', '巫医', '副族长',
                                         '族长']:  # older cat thoughts about dead cat
-                        thoughts.extend(['Is listening to stories about ' + other_name,
-                                         'Is learning more about ' + other_name,
-                                         'Is sad they couldn\'t spend more time with ' + other_name,
-                                         'Wishes they could visit ' + other_name + ' in StarClan',
-                                         'Is remembering ' + other_name])
+                        thoughts.extend(['正在聆听 ' + other_name + ' 的故事',
+                                         '想要更加了解 ' + other_name,
+                                         '因为不能继续和 ' + other_name + ' 呆在一起而感到难过',
+                                         '希望能去星族拜访 ' + other_name,
+                                         '正在想念 ' + other_name])
                     if cat.status == '长老':  # elder thoughts about dead cat
-                        thoughts.extend(['Is telling stories about ' + other_name,
-                                         'Is sad they couldn\'t spend more time with ' + other_name,
-                                         'Wishes they could visit ' + other_name + ' in StarClan',
-                                         'Is remembering ' + other_name,
-                                         'Wishes that ' + other_name + ' were still alive',
-                                         'Found a trinket that used to belong to ' + other_name,
-                                         'Is forgetting who ' + other_name + ' was',
-                                         'Is thinking fondly of ' + other_name])
-                    if cat.status == '巫医' or cat.status == '巫医学徒' or cat.skill == 'strong connection to starclan':  # medicine cat/strong connection thoughts about dead cat
-                        thoughts.extend(['Was given a prophecy by ' + other_name,
-                                         'Was sent an omen by ' + other_name,
-                                         'Is dreaming about ' + other_name + ' who gives them a message',
-                                         'Is visited by ' + other_name,
-                                         'Senses ' + other_name + ' is nearby',
-                                         'Saw ' + other_name + ' in a dream, warning them about... something',
-                                         'Is asking for guidance from ' + other_name])
+                        thoughts.extend(['正在讲 ' + other_name + ' 的故事',
+                                         '因为不能继续和 ' + other_name + ' 呆在一起而感到难过',
+                                         '希望能去星族拜访 ' + other_name,
+                                         '正在想念 ' + other_name,
+                                         '希望 ' + other_name + ' 仍然活着',
+                                         '找到一个曾经属于 ' + other_name + ' 的小玩意儿',
+                                         '已经忘记 ' + other_name + ' 是谁了',
+                                         '正深情地想着 ' + other_name])
+                    if cat.status == '巫医' or cat.status == '巫医学徒' or cat.skill == '与星族有紧密的联系':  # medicine cat/strong connection thoughts about dead cat
+                        thoughts.extend(['收到 ' + other_name + ' 给予的预言',
+                                         '收到 ' + other_name + ' 给予的预兆',
+                                         '梦见 ' + other_name + ' 指引了自己',
+                                         '被 ' + other_name + ' 拜访了',
+                                         '感受到 ' + other_name + ' 正在附近',
+                                         '在梦中遇见 ' + other_name + ' , 正在警告自己......一些事情',
+                                         '向 ' + other_name + ' 请求帮助'])
                 elif not other_cat.dead:  # thoughts with other cat who is alive
                     if cat.status in ['武士', '长老', '副族长',
                                       '族长'] and other_cat.status == '学徒':  # older cat thoughts about younger cat
-                        thoughts.extend(['Is giving ' + other_name + ' advice',
-                                         'Is telling ' + other_name + ' about a hunting technique',
-                                         'Is scolding ' + other_name,
-                                         'Is giving ' + other_name + ' a task'])
+                        thoughts.extend(['正在给 ' + other_name + ' 一些建议',
+                                         '正在给 ' + other_name + ' 讲述一种狩猎技巧',
+                                         '正在责骂 ' + other_name,
+                                         '交给 ' + other_name + ' 一个任务'])
                     if cat.status == '幼崽':  # kit thoughts
                         if other_cat.status == '幼崽':  # kit thoughts with other kit
-                            thoughts.extend(['Pretends to be a warrior with ' + other_name,
-                                             'Plays mossball with ' + other_name,
-                                             'Has a mock battle with ' + other_name,
-                                             'Comes up with a plan to sneak out of camp with ' + other_name,
-                                             'Whines about ' + other_name])
+                            thoughts.extend(['和 ' + other_name + ' 一起假装自己是一个武士',
+                                             '和 ' + other_name + ' 一起玩苔藓球',
+                                             '与 ' + other_name + ' 模拟战斗',
+                                             '与 ' + other_name + ' 一起计划偷偷溜出营地',
+                                             '正在抱怨 ' + other_name])
                         elif other_cat.status != '幼崽':  # kit thoughts about older cat
                             thoughts.extend(
-                                ['Is biting ' + other_name + '\'s tail', 'Sticks their tongue out at ' + other_name,
-                                 'Whines to ' + other_name])
+                                ['正咬着 ' + other_name + ' 的尾巴', '把舌头伸向 ' + other_name,
+                                 '对 ' + other_name + ' 发牢骚'])
                     elif cat.status in ['学徒', '巫医学徒', '武士', '巫医', '副族长',
                                         '族长']:
                         if other_cat.status == '幼崽':  # older cat thoughts about kit
-                            thoughts.extend(['Trips over ' + other_name, 'Is giving advice to ' + other_name])
+                            thoughts.extend(['绊倒了 ' + other_name, '正在给 ' + other_name + ' 提建议'])
                         else:
-                            thoughts.extend(['Is fighting with ' + other_name, 'Is talking with ' + other_name,
-                                             'Is sharing prey with ' + other_name, 'Heard a rumor about ' + other_name])
+                            thoughts.extend(['和 ' + other_name + ' 打架', '与 ' + other_name + ' 交谈',
+                                             '与 ' + other_name + ' 分享猎物', '听到关于 ' + other_name + ' 的传言'])
                     if cat.age == other_cat.age:
                         thoughts.extend(
-                            ['Is developing a crush on ' + other_name, 'Is spending a lot of time with ' + other_name])
+                            ['对 ' + other_name + ' 产生好感', '花很多时间与 ' + other_name + ' 相处'])
                 if cat.status == '幼崽':
-                    thoughts.extend(['Plays mossball by themselves', 'Is annoying older cats',
-                                     'Wonders what their full name will be', 'Pretends to be a warrior',
-                                     'Is becoming interested in herbs', 'Tries to sneak out of camp',
-                                     'Is rolling around on the ground', 'Is chasing their tail',
-                                     'Is playing with a stick', 'Is nervous for their apprentice ceremony',
-                                     'Is excited for their apprentice ceremony', 'Wonders who their mentor will be',
-                                     "Practices the hunting crouch", 'Pretends to fight an enemy warrior',
-                                     'Wants to take a nap', 'Is scared after having a nightmare',
-                                     'Thinks they saw a StarClan cat in their dreams', 'Wants to snuggle',
-                                     'Wishes other cats would stop babying them', 'Is hiding from other cats',
-                                     'Is bouncing around in excitement', 'Whines about being hungry'])
+                    thoughts.extend(['自己玩苔藓球', '正在打扰长老们',
+                                     '想知道自己的名号会是什么', '假装自己是个武士',
+                                     '开始对草药感兴趣', '试图偷偷溜出营地',
+                                     '在地上打滚', '追自己的尾巴玩',
+                                     '正在玩一根棍子', '对自己的学徒仪式感到紧张',
+                                     '对自己的学徒仪式感到兴奋', '好奇自己的导师会是谁',
+                                     "练习打猎的蹲姿", '假装与敌族武士战斗',
+                                     '想去打个盹', '做了个噩梦后很害怕',
+                                     '认为自己在梦中遇见了一只星族猫', '想与其他猫依偎在一起',
+                                     '希望其他猫别再把自己当小幼崽', '正在躲避其他猫',
+                                     '兴奋地蹦蹦跳跳', '抱怨自己的肚子空空'])
                 elif cat.status == '学徒':
                     thoughts.extend(
-                        ['Is thinking about the time they caught a huge rabbit', 'Wonders what their full name will be',
-                         'Is irritating their mentor',
-                         'Is arguing with their mentor', 'Is listening to their mentor',
-                         'Plans to visit the 长老s soon', "Practices the hunting crouch",
-                         'Pretends to fight an enemy warrior', 'Practices some battle moves',
-                         'Is becoming interested in herbs', 'Volunteers for the dawn patrol',
-                         'Volunteers to gather herbs', 'Hopes they will do battle training soon',
-                         'Is pulling a prank on the warriors', 'Can\'t wait to be a warrior',
-                         'Is wondering if they are good enough to become a warrior', 'Is gathering moss',
-                         'Doesn\'t want to become a warrior yet', 'Is gossiping', 'Is acting angsty'])
+                        ['正在回想他们抓到一只肥兔子的时候', '想知道自己的名号会是什么',
+                         '正在刺激自己的导师',
+                         '正在和导师争吵', '正在聆听自己的导师讲话',
+                         '想去拜访长老巢穴', "练习打猎技巧",
+                         '假装与敌族武士战斗', '练习战斗技巧',
+                         '开始对草药感兴趣', '自愿参加黎明巡逻队',
+                         '自愿去采集草药', '希望能尽快参加战斗训练',
+                         '正在对武士们恶作剧', '迫不及待地想成为一名武士',
+                         '想知道自己是否足以成为武士', '正在采集苔藓',
+                         '还不想成为一名武士', '正在说闲话', '表现得很焦虑'])
                 elif cat.status == '巫医学徒':
                     thoughts.extend(
-                        ['Is struggling to remember all of the names of herbs', 'Is counting the poppy seeds',
-                         'Is helping organize the herb stores', 'Wonders what their full name will be',
-                         'Plans to help the 长老s with their ticks', 'Is looking forward to the half-moon meeting',
-                         'Is wondering if they are good enough to become a 巫医',
-                         'Helps apply a poultice to a small wound', 'Is making new nests',
-                         'Is proud of their ability to care for their clanmates'])
+                        ['正在努力记住所有药草的名字', '正在数罂粟籽',
+                         '正在帮忙整理药草储存', '想知道自己的名号会是什么',
+                         '计划帮长老们处理他们的虱子', '期待着月半集会',
+                         '想知道自己是否足以成为巫医',
+                         '给一道小伤口上药', '正在制作新巢穴',
+                         '为自己有能力照顾族猫而感到自豪'])
                 elif cat.status == '巫医':
                     thoughts.extend(
-                        ['Is looking for herbs', 'Is organizing the herb stores', 'Is drying some herbs',
-                         'Is counting the poppy seeds', 'Is gathering cobwebs', 'Is interpreting an omen',
-                         'Is interpreting a prophecy', 'Hopes for a message from StarClan soon',
-                         'Is checking up on the warriors', 'Is feeling stressed taking care of the clan',
-                         'Is thinking about taking on a new apprentice',
-                         'Is wondering if they could borrow some catmint from the other clans',
-                         'Is looking forward to the half-moon meeting', 'Is wrapping a wound with cobwebs',
-                         'Is clearing out old herbs', 'Is gathering death berries',
-                         'Is proud of their ability to care for their clanmates', 'Chased kits out of their den'])
+                        ['正在寻找药草', '正在整理药草储存', '正在晒干药草',
+                         '正在数罂粟籽', '正在收集蜘蛛网', '正在解析一个预兆',
+                         '正在解析一个预言', '希望不久后能收到星族的指引',
+                         '正在检查武士们的状态', '在照顾族群时感到有压力',
+                         '正在考虑收一个新的学徒',
+                         '想知道是否能从别的族群借到一些猫薄荷',
+                         '期待着月半集会', '正在用蜘蛛网包扎伤口',
+                         '在清理旧药草', '正在收集死亡浆果',
+                         '为自己有能力照顾族猫而感到自豪', '把幼崽从自己的巢穴中赶出去'])
                 elif cat.status == '武士':
                     thoughts.extend(
-                        ['Caught scent of a fox earlier', 'Caught scent of an enemy warrior earlier',
-                         'Is helping gathering herbs', 'Is thinking about love', 'Is decorating their nest',
-                         'Is reinforcing the camp with brambles', 'Wants to be chosen as the new deputy',
-                         'Caught a huge rabbit', 'Is dreaming about being leader', 'Is acting suspicious',
-                         'Tries to set a good example for younger cats', 'Wants to go on a patrol',
-                         'Wants to go on a hunting patrol', 'Is hoping to lead the next patrol',
-                         'Is guarding the camp entrance', 'Is thinking about kits', 'Is watching over the kits',
-                         'Is gossiping', 'Plans to visit the 巫医'])
+                        ['早些时候闻到了狐狸的气味', '早些时候闻到了别族武士的气味',
+                         '帮忙采集药草', '正在思考爱情', '正在装饰自己的巢穴',
+                         '正在用荆棘加固营地', '想被选为新的副族长',
+                         '抓到一只肥兔子', '梦想成为族长', '表现得很可疑',
+                         '试图为年轻猫们树立一个好榜样', '想加入巡逻队',
+                         '想加入狩猎队', '希望能带领下一个巡逻队',
+                         '正在守卫营地入口', '正在思考幼崽', '正在照看幼崽',
+                         '正在说闲话', '计划去拜访巫医'])
                 elif cat.status == '副族长':
                     thoughts.extend(
-                        ['Is assigning cats to a border patrol', 'Is assigning cats to a hunting patrol',
-                         'Is wondering what it would be like to be a leader', 'Is spending time alone',
-                         'Tries to set a good example for younger cats', 'Is thinking about kits',
-                         'Is stressed about organizing patrols', "Wonders who will give them nine lives"])
+                        ['正在分配边境巡逻队', '正在分配狩猎队',
+                         '想知道成为族长会是什么样子', '独自呆着',
+                         '试图为年轻猫们树立一个好榜样', '正在思考幼崽',
+                         '组织巡逻队时感到有压力', "想知道谁会赐予自己九条命"])
                 elif cat.status == '族长':
                     thoughts.extend(
-                        ['Is hoping for a sign from StarClan', 'Is hoping that they are leading their clan well',
-                         'Thinks about who should mentor new apprentices', 'Is worried about clan relations',
-                         'Is spending time alone', 'Tries to set a good example for the deputy',
-                         'Is thinking about forming an alliance',
-                         'Is debating if they should declare a war with another clan', 'Is assessing some apprentices',
-                         'Is thinking about battle stategies', 'Almost lost a life recently',
-                         'Is counting how many lives they have left'])
+                        ['希望能看见来自星族的征兆', '希望自己能很好地领导族群',
+                         '思考谁会成为新学徒的导师', '担心族群关系',
+                         '正在独处', '试图为副族长树立一个好榜样',
+                         '考虑是否组成一个联盟',
+                         '正在争论是否应该和另一个族群宣战', '正在评估一些学徒',
+                         '正在思考战斗策略', '几乎失去一条命',
+                         '计算自己还剩几条命'])
                 elif cat.status == '长老':
                     thoughts.extend(
-                        ['Is complaining about their nest being too rough', 'Is complaining about their aching joints',
-                         'Is telling stories about when they were young', 'Is giving advice to younger cats',
-                         'Is complaining about thorns in their nest', 'Is bossing around the younger cats',
-                         'Is telling scary stories to the younger cats', 'Is snoring in their sleep',
-                         'Thinking about how too many cats die young', 'Is complaining about being cold',
-                         'Is grateful they have lived so long', 'Is sharing their wisdom'])
+                        ['抱怨自己的巢穴太粗糙', '抱怨自己疼痛的关节',
+                         '讲述自己年轻时的故事', '给年轻猫提供建议',
+                         '抱怨自己的窝里有刺', '对年轻猫颐指气使',
+                         '给年轻猫讲鬼故事', '正在打着呼噜睡觉',
+                         '怀念那些在过于年轻时就离去的猫', '抱怨最近的天气变得寒冷',
+                         '庆幸自己活了这么久', '正在分享自己的智慧'])
                 thought = choice(thoughts)
             cat.thought = thought
 
@@ -976,9 +976,9 @@ class Cat(object):
         # draw colour & style
         new_sprite = pygame.Surface((sprites.size, sprites.size), pygame.HWSURFACE | pygame.SRCALPHA)
 
-        if self.pelt.name not in ['玳瑁', '三花']:
-            if self.pelt.length == '长' and self.status not in ['幼崽', '学徒',
-                                                                  '巫医学徒'] or self.age == '长老':
+        if self.pelt.name not in ['Tortie', 'Calico']:
+            if self.pelt.length == '长毛' and self.status not in ['幼崽', '学徒',
+                                                               '巫医学徒'] or self.age == '长老':
                 new_sprite.blit(
                     sprites.sprites[self.pelt.sprites[1] + 'extra' + self.pelt.colour + str(
                         self.age_sprites[self.age])], (0, 0))
@@ -987,11 +987,10 @@ class Cat(object):
                     sprites.sprites[self.pelt.sprites[1] + self.pelt.colour + str(self.age_sprites[self.age])],
                     (0, 0))
         else:
-            if self.pelt.length == '长' and self.status not in ['幼崽', '学徒',
-                                                                  '巫医学徒'] or self.age == '长老':
+            if self.pelt.length == '长毛' and self.status not in ['幼崽', '学徒',
+                                                               '巫医学徒'] or self.age == '长老':
                 new_sprite.blit(
-                    sprites.sprites[self.pelt.sprites[1] + 'extra' + self.pattern + str(
-                        self.age_sprites[self.age])], (0, 0))
+                    sprites.sprites[self.pelt.sprites[1] + 'extra' + self.pattern + str(self.age_sprites[self.age])], (0, 0))
             else:
                 new_sprite.blit(
                     sprites.sprites[self.pelt.sprites[1] + self.pattern + str(self.age_sprites[self.age])],
@@ -999,8 +998,8 @@ class Cat(object):
 
         # draw white patches
         if self.white_patches is not None:
-            if self.pelt.length == '长' and self.status not in ['幼崽', '学徒',
-                                                                  '巫医学徒'] or self.age == '长老':
+            if self.pelt.length == '长毛' and self.status not in ['幼崽', '学徒',
+                                                               '巫医学徒'] or self.age == '长老':
                 new_sprite.blit(
                     sprites.sprites['whiteextra' + self.white_patches + str(self.age_sprites[self.age])],
                     (0, 0))
@@ -1009,8 +1008,8 @@ class Cat(object):
                     sprites.sprites['white' + self.white_patches + str(self.age_sprites[self.age])], (0, 0))
 
         # draw eyes & scars1
-        if self.pelt.length == '长' and self.status not in ['幼崽', '学徒',
-                                                              '巫医学徒'] or self.age == '长老':
+        if self.pelt.length == '长毛' and self.status not in ['幼崽', '学徒',
+                                                           '巫医学徒'] or self.age == '长老':
             if self.specialty in scars1:
                 new_sprite.blit(sprites.sprites['scarsextra' + self.specialty + str(self.age_sprites[self.age])],
                                 (0, 0))
@@ -1029,15 +1028,15 @@ class Cat(object):
             new_sprite.blit(sprites.sprites['eyes' + self.eye_colour + str(self.age_sprites[self.age])], (0, 0))
 
         # draw line art
-        if self.pelt.length == '长' and self.status not in ['幼崽', '学徒',
-                                                              '巫医学徒'] or self.age == '长老':
+        if self.pelt.length == '长毛' and self.status not in ['幼崽', '学徒',
+                                                           '巫医学徒'] or self.age == '长老':
             new_sprite.blit(sprites.sprites['lines' + str(self.age_sprites[self.age] + 9)], (0, 0))
         else:
             new_sprite.blit(sprites.sprites['lines' + str(self.age_sprites[self.age])], (0, 0))
 
         # draw skin and scars2 and scars3
-        if self.pelt.length == '长' and self.status not in ['幼崽', '学徒',
-                                                              '巫医学徒'] or self.age == '长老':
+        if self.pelt.length == '长毛' and self.status not in ['幼崽', '学徒',
+                                                           '巫医学徒'] or self.age == '长老':
             new_sprite.blit(sprites.sprites['skinextra' + self.skin + str(self.age_sprites[self.age])], (0, 0))
             if self.specialty in scars2:
                 new_sprite.blit(sprites.sprites['scarsextra' + self.specialty + str(self.age_sprites[self.age])],
@@ -1325,14 +1324,17 @@ class Cat(object):
                     new_cat.mentor = value
 
     def describe_color(self):
+        pelt_list = {'WHITE': '白色', 'PALEGREY': '浅灰色', 'SILVER': '银色', 'GREY': '灰色', 'DARKGREY': '暗灰色', 'BLACK': '黑色',
+                     'PALEGINGER': '浅姜色', 'GOLDEN': '金色', 'GINGER': '姜色',
+                     'DARKGINGER': '暗姜色', 'LIGHTBROWN': '亮棕色', 'BROWN': '棕色', 'DARKBROWN': '暗棕色'}
         color_name = ''
-        if self.pelt.name == '单色' or self.pelt.name == '双色':
-            color_name = str(self.pelt.colour).lower()
-        elif self.pelt.name == "虎斑":
-            color_name = str(self.pelt.colour).lower() + ' 虎斑'
-        elif self.pelt.name == "点斑":
-            color_name = str(self.pelt.colour).lower() + ' 点斑'
-        elif self.pelt.name == "玳瑁" or self.pelt.name == "三花":
+        if self.pelt.name == 'SingleColour' or self.pelt.name == 'TwoColour':
+            color_name = pelt_list.get(str(self.pelt.colour))  # str(self.pelt.colour).lower()
+        elif self.pelt.name == "Tabby":
+            color_name = pelt_list.get(str(self.pelt.colour)) + ' 虎斑'
+        elif self.pelt.name == "Speckled":
+            color_name = pelt_list.get(str(self.pelt.colour)) + ' 点斑'
+        elif self.pelt.name == "Tortie" or self.pelt.name == "Calico":
             color_name = '玳瑁'  # check for calico or for white later
 
         # not enough to comment on
@@ -1340,16 +1342,16 @@ class Cat(object):
             color_name = color_name  # what is this even lol
         # enough to comment but not make calico
         elif self.white_patches in ['LITTLE', 'LITTLECREAMY', 'LIGHTTUXEDO', 'BUZZARDFANG']:
-            color_name = color_name + ' and white'
+            color_name = color_name + ' 和白色'
         # and white
         elif self.white_patches in ['ANY', 'TUXEDO', 'ANY2', 'ANYCREAMY', 'TUXEDOCREAMY', 'ANY2CREAMY', 'BROKEN']:
-            if color_name == '玳瑁':
+            if color_name == 'tortie':
                 color_name = '三花'
             else:
-                color_name = color_name + ' and white'
+                color_name = color_name + ' 和白色'
         # white and
         elif self.white_patches in ['VAN', 'VANCREAMY', 'ONEEAR', 'LIGHTSONG']:
-            color_name = '白和' + color_name
+            color_name = '白色和' + color_name
         # colorpoint
         elif self.white_patches in ['COLOURPOINT', 'RAGDOLL', 'COLOURPOINTCREAMY']:
             color_name = color_name + '重点'
@@ -1364,7 +1366,7 @@ class Cat(object):
         if color_name == '玳瑁':
             color_name = '玳瑁'
 
-        if color_name == '白和白':
+        if color_name == '白色和白色':
             color = name = '白色'
 
         return color_name
@@ -1375,7 +1377,7 @@ class Cat(object):
         else:
             sex = '母猫'
         description = self.describe_color()
-        description += ' ' + str(self.pelt.length).lower() + '的' + sex
+        description += ' ' + str(self.pelt.length) + '的' + sex
         return description
 
 

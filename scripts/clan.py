@@ -38,16 +38,16 @@ class Clan(object):
         if name != "":
             self.name = name
             self.leader = leader
-            self.leader.status_change('leader')
+            self.leader.status_change('族长')
             self.leader_predecessors = 0
             self.clan_cats.append(self.leader.ID)
             self.deputy = deputy
             if deputy is not None:
-                self.deputy.status_change('deputy')
+                self.deputy.status_change('副族长')
                 self.clan_cats.append(self.deputy.ID)
             self.deputy_predecessors = 0
             self.medicine_cat = medicine_cat
-            self.medicine_cat.status_change('medicine cat')
+            self.medicine_cat.status_change('巫医')
             self.med_cat_predecessors = 0
             self.clan_cats.append(self.medicine_cat.ID)
             self.age = 0
@@ -57,7 +57,7 @@ class Clan(object):
     def create_clan(self):
         """ This function is only called once a new clan is created in the 'clan created' screen, not every time
         the program starts"""
-        self.instructor = Cat(status=choice(["warrior", "elder"]))
+        self.instructor = Cat(status=choice(["武士", "长老"]))
         self.instructor.dead = True
         self.instructor.update_sprite()
         self.add_cat(self.instructor)
@@ -80,8 +80,8 @@ class Clan(object):
 
         # give thoughts/actions to cats
         for cat in cat_class.all_cats:
-            if cat_class.all_cats.get(cat).status == 'apprentice':
-                cat_class.all_cats.get(cat).status_change('apprentice')
+            if cat_class.all_cats.get(cat).status == '学徒':
+                cat_class.all_cats.get(cat).status_change('学徒')
         cat_class.thoughts()
         cat_class.save_cats()
         self.save_clan()
@@ -115,20 +115,20 @@ class Clan(object):
     def new_leader(self, leader):
         if leader:
             self.leader = leader
-            cat_class.all_cats[leader.ID].status_change('leader')
+            cat_class.all_cats[leader.ID].status_change('族长')
             self.leader_predecessors += 1
         game.switches['new_leader'] = None
 
     def new_deputy(self, deputy):
         if deputy:
             self.deputy = deputy
-            cat_class.all_cats[deputy.ID].status_change('deputy')
+            cat_class.all_cats[deputy.ID].status_change('副族长')
             self.deputy_predecessors += 1
 
     def new_medicine_cat(self, medicine_cat):
         if medicine_cat:
             self.medicine_cat = medicine_cat
-            cat_class.all_cats[medicine_cat.ID].status_change('medicine cat')
+            cat_class.all_cats[medicine_cat.ID].status_change('巫医')
             self.med_cat_predecessors += 1
 
     def switch_clans(self):
@@ -216,7 +216,7 @@ class Clan(object):
                     game.clan.add_cat(game.clan.instructor)  # This is to make sure the instructor isn't removed
             else:
                 # instructor doesn't exist because the version converted is too old
-                game.clan.instructor = Cat(status=choice(["warrior", "warrior", "elder"]))
+                game.clan.instructor = Cat(status=choice(["武士", "武士", "长老"]))
                 game.clan.instructor.update_sprite()
                 game.clan.instructor.dead = True
                 game.clan.add_cat(game.clan.instructor)  # This is to make sure the instructor isn't removed

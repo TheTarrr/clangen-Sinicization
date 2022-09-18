@@ -192,7 +192,7 @@ class Name(object):
         if suffix is None:
             loop = True
             while loop:
-                if pelt is None or pelt == '单色':
+                if pelt is None or pelt == 'SingleColour':
                     self.suffix = random.choice(self.normal_suffixes)
                 else:
                     a = random.randint(0, 7)

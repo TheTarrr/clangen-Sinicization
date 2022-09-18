@@ -420,13 +420,13 @@ class Patrol(object):
             else:
                 # disables random cat
                 if not self.success:
-                    if self.patrol_random_cat.status == 'deputy':
+                    if self.patrol_random_cat.status == '副族长':
                         game.clan.deputy = None
-                    if self.patrol_random_cat.status == 'leader':
+                    if self.patrol_random_cat.status == '族长':
                         self.patrol_random_cat.experience = 0
                         self.patrol_result_text = str(self.patrol_random_cat.name) + ' is injured by a Monster and has to relearn everything.'
                     else:
-                        self.patrol_random_cat.status_change('elder')
+                        self.patrol_random_cat.status_change('长老')
                     self.patrol_random_cat.skill = choice(['paralyzed', 'blind', 'missing a leg'])
                     return
 
@@ -452,7 +452,7 @@ class Patrol(object):
                 # stuff that happens after the results
                 if self.success:
                     for i in range(self.patrol_size):
-                        if self.patrol_cats[i].status == 'apprentice':
+                        if self.patrol_cats[i].status == '学徒':
                             self.patrol_cats[i].experience = int(self.patrol_cats[i].experience) + 10
                             if self.patrol_cats[i].experience < 0:
                                 self.patrol_cats[i].experience = 0
@@ -739,8 +739,8 @@ class Patrol(object):
                 # stuff that happens after the results
                 if self.success:
                     new_cat_status = choice(
-                        ['warrior', 'warrior', 'warrior', 'warrior', 'warrior', 'warrior', 'apprentice', 'apprentice',
-                         'apprentice', 'elder'])
+                        ['武士', '武士', '武士', '武士', '武士', '武士', '学徒', '学徒',
+                         '学徒', '长老'])
                     kit = Cat(status=new_cat_status)
                     game.clan.add_cat(kit)
                     kit.skill = 'formerly a loner'
@@ -788,7 +788,7 @@ class Patrol(object):
             else:
                 # stuff that happens after the results
                 if self.success:
-                    kit = Cat(status='warrior')
+                    kit = Cat(status='武士')
                     game.clan.add_cat(kit)
                     kit.skill = 'formerly a loner'
                     if randint(0, 1):
@@ -803,8 +803,8 @@ class Patrol(object):
                 # stuff that happens after the results
                 if self.success:
                     new_cat_status = choice(
-                        ['warrior', 'warrior', 'warrior', 'warrior', 'warrior', 'warrior', 'apprentice', 'apprentice',
-                         'apprentice'])
+                        ['武士', '武士', '武士', '武士', '武士', '武士', '学徒', '学徒',
+                         '学徒'])
                     kit = Cat(status=new_cat_status)
                     game.clan.add_cat(kit)
                     kit.skill = 'formerly a kittypet'
@@ -825,7 +825,7 @@ class Patrol(object):
                 # stuff that happens after the results
                 if self.success:
                     new_cat_status = choice(
-                        ['warrior','warrior','warrior','warrior','warrior','warrior','warrior','warrior','warrior','warrior','medicine cat'])
+                        ['武士','武士','武士','武士','武士','武士','武士','武士','武士','武士','巫医'])
                     kit = Cat(status=new_cat_status)
                     game.clan.add_cat(kit)
                     kit.skill = 'formerly a loner'
